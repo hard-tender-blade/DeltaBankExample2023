@@ -7,7 +7,7 @@ import org.delta.bank.account.StudentBankAccount;
 public class ConsolePrintService implements PrintInterface {
 
     public void printBankAccountBalance(BaseBankAccount bankAccount) {
-        System.out.println(this.getAccountPrefix(bankAccount) + "(owner: " + bankAccount.getOwner().getFullName() + ") balance: " + bankAccount.getBalance());
+        System.out.println(this.getAccountPrefix(bankAccount) + "(owner: " + bankAccount.getOwner().getFullName() + "id: " + bankAccount.getBankAccountNumber() + ") balance: " + bankAccount.getBalance());
     }
 
     public void debug(String message) {

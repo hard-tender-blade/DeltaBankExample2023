@@ -23,6 +23,9 @@ public class BaseBankAccount {
     public double getBalance() {
         return balance;
     }
+    public String getBankAccountNumber() {
+        return bankAccountNumber;
+    }
 
     public void subFromBalance(double value) {
         this.balance -= value;

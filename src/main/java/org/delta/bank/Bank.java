@@ -4,6 +4,7 @@ import org.delta.bank.account.*;
 import org.delta.bank.interest.InterestService;
 import org.delta.bank.moneyTransfer.MoneyTransferService;
 import org.delta.bank.persons.Owner;
+import org.delta.bank.persons.OwnerFactory;
 import org.delta.bank.print.PrintService;
 
 import java.util.LinkedList;
@@ -12,6 +13,7 @@ import java.util.List;
 public class Bank {
 
     private final AccountFactory accountFactory;
+    private final OwnerFactory ownerFactory;
     private MoneyTransferService moneyTransferService;
     private InterestService interestService;
     private PrintService printService;
@@ -21,16 +23,17 @@ public class Bank {
         this.interestService = new InterestService();
         this.printService = new PrintService();
         this.accountFactory = new AccountFactory();
+        this.ownerFactory = new OwnerFactory();
     }
 
     public void run() throws Exception {
         this.printService.debug("Hello bank");
         List<BaseBankAccount> accountsList = new LinkedList<>();
 
-        Owner owner = new Owner("Denis", "Matsenko");
+        Owner owner = ownerFactory.createOwner("Jakub", "Klucky");
         StudentBankAccount bankAccount = accountFactory.createStudentBankAccount(owner,4000.0);
 
-        Owner owner2 = new Owner("Tomas", "Pesek");
+        Owner owner2 = ownerFactory.createOwner("Jakub", "Klucky");
         BaseBankAccount bankAccount2 = accountFactory.createBaseBankAccount(owner2,5000.0);
 
         accountsList.add(bankAccount);

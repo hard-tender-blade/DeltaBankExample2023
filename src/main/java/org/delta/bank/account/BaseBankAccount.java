@@ -38,4 +38,5 @@ public class BaseBankAccount {
     public Owner getOwner() {
         return owner;
     }
+    public String getAccountNumber() { return bankAccountNumber; }
 }

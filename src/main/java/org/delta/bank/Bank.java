@@ -6,14 +6,19 @@ import org.delta.bank.moneyTransfer.MoneyTransferService;
 import org.delta.bank.persons.Owner;
 import org.delta.bank.persons.OwnerFactory;
 import org.delta.bank.print.PrintService;
+import org.delta.bank.account.AccountService;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class Bank {
 
+    private final AccountService accountService;
     private final AccountFactory accountFactory;
     private final OwnerFactory ownerFactory;
+
+    private final BankFactory bankFactory;
     private MoneyTransferService moneyTransferService;
     private InterestService interestService;
     private PrintService printService;
@@ -22,13 +27,14 @@ public class Bank {
         this.moneyTransferService = new MoneyTransferService();
         this.interestService = new InterestService();
         this.printService = new PrintService();
+        this.accountService = new AccountService();
+        this.bankFactory = new BankFactory();
         this.accountFactory = new AccountFactory();
         this.ownerFactory = new OwnerFactory();
     }
 
     public void run() throws Exception {
         this.printService.debug("Hello bank");
-        List<BaseBankAccount> accountsList = new LinkedList<>();
 
         Owner owner = ownerFactory.createOwner("Jakub", "Klucky");
         StudentBankAccount bankAccount = accountFactory.createStudentBankAccount(owner,4000.0);
@@ -36,11 +42,21 @@ public class Bank {
         Owner owner2 = ownerFactory.createOwner("Jakub", "Klucky");
         BaseBankAccount bankAccount2 = accountFactory.createBaseBankAccount(owner2,5000.0);
 
-        accountsList.add(bankAccount);
-        accountsList.add(bankAccount);
+        Map<String, BaseBankAccount> accounts = accountService.getAccounts();
 
-        this.printService.printBankAccountBalance(bankAccount);
-        this.printService.printBankAccountBalance(bankAccount2);
+        for(Map.Entry<String, BaseBankAccount> entrySet : accountService.getAccounts().entrySet()){
+            BaseBankAccount account = entrySet.getValue();
+            printService.debug("test?");
+
+            this.printService.printBankAccountBalance(account);
+
+            if(account instanceof InterestAccount){
+                this.interestService.processInterest(account);
+                this.printService.printBankAccountBalance(account);
+            }
+        }
+
+
 
 
 

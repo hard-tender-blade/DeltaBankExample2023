@@ -5,9 +5,7 @@ import org.delta.bank.persons.Owner;
 public class BaseBankAccount {
 
     protected Owner owner;
-
     protected String bankAccountNumber;
-
     protected double balance;
 
     public BaseBankAccount(Owner owner, String bankAccountNumber, double balance) {

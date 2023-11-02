@@ -3,11 +3,8 @@ package org.delta.bank.moneyTransfer.fee;
 public class FeeConfigurator {
 
     private boolean isFreeFee;
-
     private double baseFee;
-
     private double percentLimit;
-
     private double basePercent;
 
     public FeeConfigurator() {

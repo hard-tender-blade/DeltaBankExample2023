@@ -1,10 +1,12 @@
 package org.delta.bank;
 
+import jakarta.inject.Inject;
 import org.delta.bank.account.*;
 import org.delta.bank.interest.InterestService;
 import org.delta.bank.moneyTransfer.MoneyTransferService;
 import org.delta.bank.persons.Owner;
 import org.delta.bank.persons.OwnerFactory;
+import org.delta.bank.persons.OwnerJsonService;
 import org.delta.bank.print.PrintService;
 import org.delta.bank.account.AccountService;
 
@@ -14,39 +16,40 @@ import java.util.Map;
 
 public class Bank {
 
-    private final AccountService accountService;
-    private final AccountFactory accountFactory;
-    private final OwnerFactory ownerFactory;
-
-    private final BankFactory bankFactory;
+    @Inject
+    private AccountService accountService;
+    @Inject
+    private AccountFactory accountFactory;
+    @Inject
+    private OwnerFactory ownerFactory;
+    @Inject
     private MoneyTransferService moneyTransferService;
+    @Inject
     private InterestService interestService;
+    @Inject
     private PrintService printService;
-
-    public Bank() {
-        this.moneyTransferService = new MoneyTransferService();
-        this.interestService = new InterestService();
-        this.printService = new PrintService();
-        this.accountService = new AccountService();
-        this.bankFactory = new BankFactory();
-        this.accountFactory = new AccountFactory();
-        this.ownerFactory = new OwnerFactory();
-    }
+    @Inject
+    private OwnerJsonService ownerJsonService;
 
     public void run() throws Exception {
         this.printService.debug("Hello bank");
 
         Owner owner = ownerFactory.createOwner("Jakub", "Klucky");
-        StudentBankAccount bankAccount = accountFactory.createStudentBankAccount(owner,4000.0);
+        printService.debug(ownerJsonService.getOwnerJson(owner));
+
+        StudentBankAccount bankAccount = accountService.createAndStoreStudentAccount(owner,4000.0);
 
         Owner owner2 = ownerFactory.createOwner("Jakub", "Klucky");
+        printService.debug(ownerJsonService.getOwnerJson(owner2));
         BaseBankAccount bankAccount2 = accountFactory.createBaseBankAccount(owner2,5000.0);
 
+        this.printService.printBankAccountBalance(bankAccount);
+
+        // wqdqwdq
         Map<String, BaseBankAccount> accounts = accountService.getAccounts();
 
         for(Map.Entry<String, BaseBankAccount> entrySet : accountService.getAccounts().entrySet()){
             BaseBankAccount account = entrySet.getValue();
-            printService.debug("test?");
 
             this.printService.printBankAccountBalance(account);
 

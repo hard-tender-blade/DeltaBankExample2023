@@ -1,18 +1,14 @@
 package org.delta.bank.moneyTransfer;
 
+import jakarta.inject.Inject;
 import org.delta.bank.account.BaseBankAccount;
 import org.delta.bank.moneyTransfer.validators.SourceAccountValidationService;
 
 public class MoneyTransferService {
-
-    private final SourceAccountValidationService sourceAccountValidationService;
-
-    private final MoneyTransferFeeCalculator moneyTransferFeeCalculator;
-
-    public MoneyTransferService() {
-        this.sourceAccountValidationService = new SourceAccountValidationService();
-        this.moneyTransferFeeCalculator = new MoneyTransferFeeCalculator();
-    }
+    @Inject
+    private SourceAccountValidationService sourceAccountValidationService;
+    @Inject
+    private MoneyTransferFeeCalculator moneyTransferFeeCalculator;
 
     public void transferMoney(BaseBankAccount sourceAccount, BaseBankAccount destinationAccount, double value) throws Exception {
 

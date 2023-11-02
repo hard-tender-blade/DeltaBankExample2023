@@ -10,5 +10,4 @@ final public class SourceAccountValidationService {
             throw new LackOfResourcesException();
         }
     }
-
 }

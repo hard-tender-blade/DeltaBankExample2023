@@ -7,6 +7,7 @@ import org.delta.bank.moneyTransfer.MoneyTransferService;
 import org.delta.bank.persons.Owner;
 import org.delta.bank.persons.OwnerFactory;
 import org.delta.bank.persons.OwnerJsonService;
+import org.delta.bank.persons.OwnerJsonServiceInterface;
 import org.delta.bank.print.PrintService;
 import org.delta.bank.account.AccountService;
 
@@ -29,7 +30,7 @@ public class Bank {
     @Inject
     private PrintService printService;
     @Inject
-    private OwnerJsonService ownerJsonService;
+    private OwnerJsonServiceInterface ownerJsonService;
 
     public void run() throws Exception {
         this.printService.debug("Hello bank");
